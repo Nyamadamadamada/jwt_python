@@ -1,3 +1,4 @@
+from enum import Enum
 from pydantic import BaseModel
 
 class Token(BaseModel):
@@ -10,3 +11,9 @@ class BaseUser(BaseModel):
 class User(BaseUser):
     name: str
     password: str
+    role: str
+
+class Payload(BaseModel):
+    user_id: str
+    role: str
+    exp: int

@@ -1,31 +1,29 @@
 # jwtを体験してみよう
 
-## Dockerを使いたい人
+## 環境構築
+### Dockerを使いたい人
 
 ```
 docker compose up -d
 ```
 
-## ローカルPCのpythonで直接実行したい人
-
-```bash
-c
-```
-
-## リンク
-アクセスできるかの確認
-`http://localhost:8000/`
+リンク
+[http://localhost:8000/](http://localhost:8000/)
 
 API Swagger
-`http://localhost:8000/docs#/`
+[http://localhost:8000/docs#/](http://localhost:8000/docs#/)
 
+### ローカルPCのpythonで直接実行したい人
+pythonとpip3をHomebrewでインストールしておく必要がある。
+（Macなら元から入ってるかも）
 
+```bash
+pip3 install -r ./docker/requirements.txt
+uvicorn app.main:app --reload
 ```
-curl -X 'POST' \
-  'http://localhost:8000/login' \
-  -H 'accept: application/json' \
-  -H 'Content-Type: application/json' \
-  -d '{
-  "id": "pasona"
-}'
-```
+
+リンク（もし、アクセスできなかったら、起動時のログを確認）
+[http://127.0.0.1:8000](http://127.0.0.1:8000)
+
+API Swagger
+[http://127.0.0.1:8000/docs#/](http://127.0.0.1:8000/docs#/)

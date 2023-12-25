@@ -1,10 +1,10 @@
-from app.method import authenticate_user, create_jwt
-from app.models import BaseUser, Token
-from fastapi import FastAPI, HTTPException, status
+from typing import Annotated
+from app.method import authenticate_user, create_jwt, get_current_user
+from app.models import BaseUser, Payload, Token, User
+from fastapi import FastAPI, HTTPException, status, Depends
 from fastapi.responses import HTMLResponse
 
 app = FastAPI()
-
 
 # ログイン
 @app.post("/login", response_model=Token)
@@ -20,6 +20,11 @@ async def login(form_data: BaseUser):
     return {"access_token": access_token, "token_type": "bearer"}
 
 
+# ユーザーデータにアクセスするためのエンドポイント
+@app.get("/user/data", response_model=Payload)
+async def read_users_data(user_info: Payload = Depends(get_current_user)):
+    return user_info
+
 # サーバー起動確認用
 @app.get("/", response_class=HTMLResponse)
 async def read():
@@ -29,7 +34,7 @@ async def read():
             <title>FAST API</title>
         </head>
         <body>
-            <h1>FAST APIが動いてるよ!</h1>
+            <h1>FAST APIが動いてる!</h1>
         </body>
     </html>
     """
