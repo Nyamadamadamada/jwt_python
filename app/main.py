@@ -1,13 +1,14 @@
-from typing import Annotated
 from app.method import authenticate_user, create_jwt, get_current_user
-from app.models import BaseUser, Payload, Token, User
+from app.models import BaseUser, Payload, Token
 from fastapi import FastAPI, HTTPException, status, Depends
 from fastapi.responses import HTMLResponse
 
 app = FastAPI()
 
-# ログイン
-@app.post("/login", response_model=Token)
+"""
+ユーザーIDから認証し、JWTトークンを生成する。
+"""
+@app.post("/login", response_model=Token, summary="ログイン")
 async def login(form_data: BaseUser):
     user = authenticate_user(form_data.id)
     if not user:
@@ -20,12 +21,17 @@ async def login(form_data: BaseUser):
     return {"access_token": access_token, "token_type": "bearer"}
 
 
-# ユーザーデータにアクセスするためのエンドポイント
-@app.get("/user/data", response_model=Payload)
+"""
+認証されたユーザーのデータを取得する。
+"""
+@app.get("/user/data", response_model=Payload,summary="ユーザーデータ取得")
 async def read_users_data(user_info: Payload = Depends(get_current_user)):
     return user_info
 
-# サーバー起動確認用
+
+"""
+サーバーが動作していることを確認するためのシンプルなHTMLページ。
+"""
 @app.get("/", response_class=HTMLResponse)
 async def read():
     return f"""
