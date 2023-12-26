@@ -3,6 +3,7 @@
 JWTの検証
 [https://jwt.io/](https://jwt.io/)
 
+
 ## 環境構築
 ### Dockerを使いたい人
 
@@ -30,3 +31,9 @@ uvicorn app.main:app --reload
 
 API Swagger
 [http://127.0.0.1:8000/docs#/](http://127.0.0.1:8000/docs#/)
+
+
+### 動作確認
+1. /loginで、id=pasonaかid=adminでログイン
+2. AuthorizeでJWTをヘッダーにつける
+3. /user/dataにアクセス
